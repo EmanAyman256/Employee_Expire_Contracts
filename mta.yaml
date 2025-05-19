@@ -1,0 +1,58 @@
+_schema-version: 3.3.0
+ID: Employees_Expire_Contracts
+version: 1.0.0
+description: "A simple CAP project."
+parameters:
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm ci
+        - npx cds build --production
+modules:
+  - name: Employees_Expire_Contracts-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      instances: 1
+      buildpack: nodejs_buildpack
+    build-parameters:
+      builder: npm-ci
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: Employees_Expire_Contracts-auth
+      - name: Employees_Expire_Contracts-db
+      - name: Employees_Expire_Contracts-destination
+
+  - name: Employees_Expire_Contracts-db-deployer
+    type: hdb
+    path: gen/db
+    parameters:
+      buildpack: nodejs_buildpack
+    requires:
+      - name: Employees_Expire_Contracts-db
+
+resources:
+  - name: Employees_Expire_Contracts-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: Employees_Expire_Contracts-${org}-${space}
+        tenant-mode: dedicated
+  - name: Employees_Expire_Contracts-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+  - name: Employees_Expire_Contracts-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite

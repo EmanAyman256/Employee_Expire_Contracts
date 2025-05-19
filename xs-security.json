@@ -1,0 +1,4 @@
+{
+  "xsappname": "Employees_Expire_Contracts-${org}-${space}",
+  "tenant-mode": "dedicated"
+}

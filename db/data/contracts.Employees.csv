@@ -1,0 +1,6 @@
+employeeId,firstName,lastName,email,managerId,managerEmail,contractEndDate,contractStatus
+E001,John,Doe,john.doe@company.com,M001,manager1@company.com,2025-06-15,Active
+E002,Jane,Smith,jane.smith@company.com,M001,manager1@company.com,2025-07-10,Active
+E003,Alice,Johnson,alice.johnson@company.com,M002,manager2@company.com,2025-08-05,Active
+E004,Bob,Brown,bob.brown@company.com,M002,manager2@company.com,2025-09-20,Active
+E005,Carol,White,carol.white@company.com,M001,manager1@company.com,2025-06-30,Active
