@@ -25,6 +25,9 @@
       "destinations": true},
     "sql": {
             "native_hana_associations": false
+    },
+    "jobscheduler": {
+      "kind": "jobscheduler"
     }
   }
 }
