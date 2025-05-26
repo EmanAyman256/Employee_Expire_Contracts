@@ -1,0 +1,28 @@
+CREATE PROCEDURE "contracts"."getExpiringContracts" (
+    OUT result TABLE (
+        "EMPLOYEEID" NVARCHAR(10),
+        "FIRSTNAME" NVARCHAR(100),
+        "LASTNAME" NVARCHAR(100),
+        "EMAIL" NVARCHAR(255),
+        "MANAGERID" NVARCHAR(10),
+        "MANAGEREMAIL" NVARCHAR(255),
+        "CONTRACTENDDATE" DATE,
+        "CONTRACTSTATUS" NVARCHAR(50)
+    )
+)
+LANGUAGE SQLSCRIPT
+AS
+BEGIN
+    result = SELECT 
+        "employeeId" AS "EMPLOYEEID",
+        "firstName" AS "FIRSTNAME",
+        "lastName" AS "LASTNAME",
+        "email" AS "EMAIL",
+        "managerId" AS "MANAGERID",
+        "managerEmail" AS "MANAGEREMAIL",
+        "contractEndDate" AS "CONTRACTENDDATE",
+        "contractStatus" AS "CONTRACTSTATUS"
+    FROM "contracts"."Employees"
+    WHERE "contractStatus" = 'Active'
+    AND "contractEndDate" BETWEEN ADD_DAYS(CURRENT_DATE, 0) AND ADD_DAYS(CURRENT_DATE, 90);
+END;
